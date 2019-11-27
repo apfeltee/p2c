@@ -1,0 +1,9 @@
+*.o
+*.obj
+*.exe
+*.pdb
+*.stackdump
+*.core
+*~
+examples/*/*.c
+
