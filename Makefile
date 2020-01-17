@@ -36,7 +36,9 @@ LFLAGS = -g3 -ggdb
 
 ##########################
 
-all: $(makeproto_exe) $(libname) $(exename)
+#all: $(makeproto_exe) $(libname) $(exename)
+all: $(libname) $(exename)
+
 
 $(libname): $(objects_lib)
 	ar rcs $(libname) $(objects_lib)
@@ -58,6 +60,6 @@ distclean: clean
 
 rebuild: distclean all
 
-%.o: %.c
+%.o: %.c src/exe/trans.h
 	$(CC) -c $< -o $@ $(CFLAGS)
 

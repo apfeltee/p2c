@@ -98,47 +98,47 @@ __module SYSTEM;   (*PERMANENT*)
         function  tan(r : longreal) : longreal;
         function  tanh(r : longreal) : longreal;
         (* why is this missing? *)
-        procedure Assign(out f: file; const Name: ShortString);
-        procedure Assign(out f: file; const p: PAnsiChar);
-        procedure Assign(out f: file; const c: AnsiChar);
-        procedure Assign(out f: file; const Name: UnicodeString);
-        procedure Assign(out f: file; const Name: RawByteString);
-        procedure Assign(out f: TypedFile; const Name: shortstring);
+        procedure Assign(f: file; Name: ShortString);
+        procedure Assign(f: file; p: PAnsiChar);
+        procedure Assign(f: file; c: AnsiChar);
+        procedure Assign(f: file; Name: UnicodeString);
+        procedure Assign(f: file; Name: RawByteString);
+        procedure Assign(f: TypedFile; Name: shortstring);
         procedure Assign(
-          out f: TypedFile;
-          const p: PAnsiChar
+          f: TypedFile;
+          p: PAnsiChar
         );
         procedure Assign(
-          out f: TypedFile;
-          const c: AnsiChar
+          f: TypedFile;
+          c: AnsiChar
         );
         procedure Assign(
-          out f: TypedFile;
-          const Name: unicodestring
+          f: TypedFile;
+          Name: unicodestring
         );
         procedure Assign(
-          out f: TypedFile;
-          const Name: RawByteString
+          f: TypedFile;
+          Name: RawByteString
         );
         procedure Assign(
-          out t: Text;
-          const s: shortstring
+          t: Text;
+          s: shortstring
         );
         procedure Assign(
-          out t: Text;
-          const p: PAnsiChar
+          t: Text;
+          p: PAnsiChar
         );
         procedure Assign(
-          out t: Text;
-          const c: AnsiChar
+          t: Text;
+          c: AnsiChar
         );
         procedure Assign(
-          out t: Text;
-          const s: unicodestring
+          t: Text;
+          s: unicodestring
         );
         procedure Assign(
-          out t: Text;
-          const s: RawByteString
+          t: Text;
+          s: RawByteString
         );
         { SUN Pascal extensions }
         type alfa = packed array [1..10] of char;
