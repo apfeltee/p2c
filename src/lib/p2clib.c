@@ -45,7 +45,8 @@ long my_labs(long x)
 
 Anyptr my_memmove(Anyptr d, Const Anyptr s, size_t n)
 {
-    char *dd = (char*)d, *ss = (char*)s;
+    char* dd = (char*)d;
+    char* ss = (char*)s;
     if(dd < ss || dd - ss >= n)
     {
 #if defined(bcopy) && defined(memcpy)
@@ -71,17 +72,24 @@ Anyptr my_memcpy(Anyptr d, Const Anyptr s, size_t n)
     ss = (char*)s;
     dd = (char*)d;
     while(n-- > 0)
+    {
         *dd++ = *ss++;
+    }
     return d;
 }
 
 int my_memcmp(Const Anyptr s1, Const Anyptr s2, size_t n)
 {
-    char *a = (char*)s1, *b = (char*)s2;
+    char* a = (char*)s1;
+    char* b = (char*)s2;
     int i;
     while(n-- > 0)
+    {
         if((i = (*a++) - (*b++)) != 0)
+        {
             return i;
+        }
+    }
     return 0;
 }
 
@@ -89,24 +97,32 @@ Anyptr my_memset(Anyptr d, int c, size_t n)
 {
     char* dd = (char*)d;
     while(n-- > 0)
+    {
         *dd++ = c;
+    }
     return d;
 }
 
 int my_toupper(int c)
 {
     if(islower(c))
+    {
         return _toupper(c);
-    else
+    }
+    {
         return c;
+    }
 }
 
 int my_tolower(int c)
 {
     if(isupper(c))
+    {
         return _tolower(c);
-    else
+    }
+    {
         return c;
+    }
 }
 
 long ipow(long a, long b)
@@ -114,19 +130,29 @@ long ipow(long a, long b)
     long v;
 
     if(a == 0 || a == 1)
+    {
         return a;
+    }
     if(a == -1)
+    {
         return (b & 1) ? -1 : 1;
+    }
     if(b < 0)
+    {
         return 0;
+    }
     if(a == 2)
+    {
         return 1L << b;
+    }
     v = (b & 1) ? a : 1;
     while((b >>= 1) > 0)
     {
         a *= a;
         if(b & 1)
+        {
             v *= a;
+        }
     }
     return v;
 }
@@ -134,33 +160,43 @@ long ipow(long a, long b)
 long P_imax(long a, long b)
 {
     if(a > b)
+    {
         return a;
-    else
+    }
+    {
         return b;
+    }
 }
 
 long P_imin(long a, long b)
 {
     if(a < b)
+    {
         return a;
-    else
+    }
+    {
         return b;
+    }
 }
 
 double P_rmax(double a, double b)
 {
     if(a > b)
+    {
         return a;
-    else
+    }
+    {
         return b;
+    }
 }
 
 double P_rmin(double a, double b)
 {
     if(a < b)
+    {
         return a;
-    else
-        return b;
+    }
+    return b;
 }
 
 /* Common string functions: */
@@ -190,7 +226,9 @@ char* strsub(char* ret, char* s, int pos, int len)
     while(--len >= 0)
     {
         if(!(*s2++ = *s++))
+        {
             return ret;
+        }
     }
     *s2 = 0;
     return ret;
@@ -201,21 +239,28 @@ char* strsub(char* ret, char* s, int pos, int len)
 
 int strpos2(char* s, char* pat, int pos)
 {
-    char *cp, ch;
+    char* cp;
+    char ch;
     int slen;
 
     if(--pos < 0)
+    {
         return 0;
+    }
     slen = strlen(s) - pos;
     cp = s + pos;
     if(!(ch = *pat++))
+    {
         return 0;
+    }
     pos = strlen(pat);
     slen -= pos;
     while(--slen >= 0)
     {
         if(*cp++ == ch && !strncmp(cp, pat, pos))
+        {
             return cp - s;
+        }
     }
     return 0;
 }
@@ -224,22 +269,29 @@ int strpos2(char* s, char* pat, int pos)
 
 int strcicmp(char* s1, char* s2)
 {
-    unsigned char c1, c2;
+    unsigned char c1;
+    unsigned char c2;
 
     while(*s1)
     {
         if(*s1++ != *s2++)
         {
             if(!s2[-1])
+            {
                 return 1;
+            }
             c1 = toupper(s1[-1]);
             c2 = toupper(s2[-1]);
             if(c1 != c2)
+            {
                 return c1 - c2;
+            }
         }
     }
     if(*s2)
+    {
         return -1;
+    }
     return 0;
 }
 
@@ -250,7 +302,9 @@ int strcicmp(char* s1, char* s2)
 char* strltrim(char* s)
 {
     while(Isspace(*s++))
+    {
         ;
+    }
     return s - 1;
 }
 
@@ -261,11 +315,17 @@ char* strrtrim(char* s)
     char* s2 = s;
 
     if(!*s)
+    {
         return s;
+    }
     while(*++s2)
+    {
         ;
+    }
     while(s2 > s && Isspace(*--s2))
+    {
         *s2 = 0;
+    }
     return s;
 }
 
@@ -280,7 +340,9 @@ char* strrpt(char* ret, char* s, int num)
     {
         s1 = s;
         while((*s2++ = *s1++))
+        {
             ;
+        }
         s2--;
     }
     return ret;
@@ -295,16 +357,22 @@ char* strpad(char* ret, char* s, int padchar, int num)
     if(s == d)
     {
         while(*d++)
+        {
             ;
+        }
     }
     else
     {
         while((*d++ = *s++))
+        {
             ;
+        }
     }
     num -= (--d - ret);
     while(--num >= 0)
+    {
         *d++ = padchar;
+    }
     *d = 0;
     return ret;
 }
@@ -318,11 +386,15 @@ void strmove(int len, char* s, int spos, char* d, int dpos)
     s += spos - 1;
     d += dpos - 1;
     while(*d && --len >= 0)
+    {
         *d++ = *s++;
+    }
     if(len > 0)
     {
         while(--len >= 0)
+        {
             *d++ = *s++;
+        }
         *d = 0;
     }
 }
@@ -335,10 +407,14 @@ void strdelete(char* s, int pos, int len)
     int slen;
 
     if(--pos < 0)
+    {
         return;
+    }
     slen = strlen(s) - pos;
     if(slen <= 0)
+    {
         return;
+    }
     s += pos;
     if(slen <= len)
     {
@@ -346,17 +422,22 @@ void strdelete(char* s, int pos, int len)
         return;
     }
     while((*s = s[len]))
+    {
         s++;
+    }
 }
 
 /* Insert string "src" at index "pos" of "dst". */
 
 void strinsert(char* src, char* dst, int pos)
 {
-    int slen, dlen;
+    int slen;
+    int dlen;
 
     if(--pos < 0)
+    {
         return;
+    }
     dlen = strlen(dst);
     dst += dlen;
     dlen -= pos;
@@ -373,20 +454,24 @@ void strinsert(char* src, char* dst, int pos)
     } while(--dlen >= 0);
     dst++;
     while(--slen >= 0)
+    {
         *dst++ = *src++;
+    }
 }
 
 /* File functions */
 
 /* Peek at next character of input stream; return EOF at end-of-file. */
 
-int P_peek(f) FILE* f;
+int P_peek(FILE* f)
 {
     int ch;
 
     ch = getc(f);
     if(ch == EOF)
+    {
         return EOF;
+    }
     ungetc(ch, f);
     return (ch == '\n') ? ' ' : ch;
 }
@@ -395,41 +480,49 @@ int P_peek(f) FILE* f;
    stdin is broken; remove the special case for it to be broken in a
    different way. */
 
-int P_eof(f) FILE* f;
+int P_eof(FILE* f)
 {
     int ch;
 
     if(feof(f))
+    {
         return 1;
+    }
 #ifdef HAVE_ISATTY
     if(isatty(fileno(f)))
 #else
     if(f == stdin)
 #endif
+    {
         return 0; /* not safe to look-ahead on the keyboard! */
+    }
     ch = getc(f);
     if(ch == EOF)
+    {
         return 1;
+    }
     ungetc(ch, f);
     return 0;
 }
 
 /* Check if at end of line (or end of entire file). */
 
-int P_eoln(f) FILE* f;
+int P_eoln(FILE* f)
 {
     int ch;
 
     ch = getc(f);
     if(ch == EOF)
+    {
         return 1;
+    }
     ungetc(ch, f);
     return (ch == '\n');
 }
 
 /* Skip whitespace (including newlines) in a file. */
 
-FILE* _skipnlspaces(f) FILE* f;
+FILE* _skipnlspaces(FILE* f)
 {
     int ch;
 
@@ -438,13 +531,15 @@ FILE* _skipnlspaces(f) FILE* f;
         ch = getc(f);
     } while(ch == ' ' || ch == '\t' || ch == '\n');
     if(ch != EOF)
+    {
         ungetc(ch, f);
+    }
     return f;
 }
 
 /* Skip whitespace (not including newlines) in a file. */
 
-FILE* _skipspaces(f) FILE* f;
+FILE* _skipspaces(FILE* f)
 {
     int ch;
 
@@ -453,7 +548,9 @@ FILE* _skipspaces(f) FILE* f;
         ch = getc(f);
     } while(ch == ' ' || ch == '\t');
     if(ch != EOF)
+    {
         ungetc(ch, f);
+    }
     return f;
 }
 
@@ -468,22 +565,28 @@ int len;
     for(;;)
     {
         if(len <= 0)
+        {
             return;
+        }
         ch = getc(f);
         if(ch == EOF || ch == '\n')
+        {
             break;
+        }
         *s++ = ch;
         --len;
     }
     while(--len >= 0)
+    {
         *s++ = ' ';
+    }
     if(ch != EOF)
+    {
         ungetc(ch, f);
+    }
 }
 
-Void P_readlnpaoc(f, s, len) FILE* f;
-char* s;
-int len;
+Void P_readlnpaoc(FILE* f, char* s, int len)
 {
     int ch;
 
@@ -491,7 +594,9 @@ int len;
     {
         ch = getc(f);
         if(ch == EOF || ch == '\n')
+        {
             break;
+        }
         if(len > 0)
         {
             *s++ = ch;
@@ -499,21 +604,27 @@ int len;
         }
     }
     while(--len >= 0)
+    {
         *s++ = ' ';
+    }
 }
 
 /* Compute maximum legal "seek" index in file (0-based). */
 
-long P_maxpos(f) FILE* f;
+long P_maxpos(FILE* f)
 {
     long savepos = ftell(f);
     long val;
 
     if(fseek(f, 0L, SEEK_END))
+    {
         return -1;
+    }
     val = ftell(f);
     if(fseek(f, savepos, SEEK_SET))
+    {
         return -1;
+    }
     return val;
 }
 
@@ -525,7 +636,9 @@ Char* P_trimname(Char* fn, int len)
     Char* cp = fnbuf;
 
     while(--len >= 0 && *fn && !isspace(*fn))
+    {
         *cp++ = *fn++;
+    }
     *cp = 0;
     return fnbuf;
 }
@@ -558,16 +671,21 @@ long* P_setunion(/* d := s1 + s2 */
                  long* s2)
 {
     long* dbase = d++;
-    int sz1 = *s1++, sz2 = *s2++;
+    int sz1 = *s1++;
+    int sz2 = *s2++;
     while(sz1 > 0 && sz2 > 0)
     {
         *d++ = *s1++ | *s2++;
         sz1--, sz2--;
     }
     while(--sz1 >= 0)
+    {
         *d++ = *s1++;
+    }
     while(--sz2 >= 0)
+    {
         *d++ = *s2++;
+    }
     *dbase = d - dbase - 1;
     return dbase;
 }
@@ -578,11 +696,16 @@ long* P_setint(/* d := s1 * s2 */
                long* s2)
 {
     long* dbase = d++;
-    int sz1 = *s1++, sz2 = *s2++;
+    int sz1 = *s1++;
+    int sz2 = *s2++;
     while(--sz1 >= 0 && --sz2 >= 0)
+    {
         *d++ = *s1++ & *s2++;
+    }
     while(--d > dbase && !*d)
+    {
         ;
+    }
     *dbase = d - dbase;
     return dbase;
 }
@@ -593,16 +716,23 @@ long* P_setdiff(/* d := s1 - s2 */
                 long* s2)
 {
     long* dbase = d++;
-    int sz1 = *s1++, sz2 = *s2++;
+    int sz1 = *s1++;
+    int sz2 = *s2++;
     while(--sz1 >= 0 && --sz2 >= 0)
+    {
         *d++ = *s1++ & ~*s2++;
+    }
     if(sz1 >= 0)
     {
         while(sz1-- >= 0)
+        {
             *d++ = *s1++;
+        }
     }
     while(--d > dbase && !*d)
+    {
         ;
+    }
     *dbase = d - dbase;
     return dbase;
 }
@@ -613,18 +743,26 @@ long* P_setxor(/* d := s1 / s2 */
                long* s2)
 {
     long* dbase = d++;
-    int sz1 = *s1++, sz2 = *s2++;
+    int sz1 = *s1++;
+    int sz2 = *s2++;
     while(sz1 > 0 && sz2 > 0)
     {
         *d++ = *s1++ ^ *s2++;
-        sz1--, sz2--;
+        sz1--;
+        sz2--;
     }
     while(--sz1 >= 0)
+    {
         *d++ = *s1++;
+    }
     while(--sz2 >= 0)
+    {
         *d++ = *s2++;
+    }
     while(--d > dbase && !*d)
+    {
         ;
+    }
     *dbase = d - dbase;
     return dbase;
 }
@@ -637,7 +775,9 @@ int P_inset(/* val IN s */
     bit = val % SETBITS;
     val /= SETBITS;
     if(val < *s++ && ((1L << bit) & s[val]))
+    {
         return 1;
+    }
     return 0;
 }
 
@@ -646,7 +786,8 @@ long* P_addset(/* s := s + [val] */
                unsigned val)
 {
     long* sbase = s;
-    int bit, size;
+    int bit;
+    int size;
     bit = val % SETBITS;
     val /= SETBITS;
     size = *s;
@@ -654,11 +795,15 @@ long* P_addset(/* s := s + [val] */
     {
         s += size;
         while(val > size)
+        {
             *++s = 0, size++;
+        }
         *sbase = size;
     }
     else
+    {
         s += val;
+    }
     *s |= 1L << bit;
     return sbase;
 }
@@ -669,9 +814,13 @@ long* P_addsetr(/* s := s + [v1..v2] */
                 unsigned v2)
 {
     long* sbase = s;
-    int b1, b2, size;
+    int b1;
+    int b2;
+    int size;
     if((int)v1 > (int)v2)
+    {
         return sbase;
+    }
     b1 = v1 % SETBITS;
     v1 /= SETBITS;
     b2 = v2 % SETBITS;
@@ -681,7 +830,9 @@ long* P_addsetr(/* s := s + [v1..v2] */
     if(++v2 > size)
     {
         while(v2 > size)
+        {
             s[++size] = 0;
+        }
         s[v2] = 0;
         *s = v2;
     }
@@ -694,7 +845,9 @@ long* P_addsetr(/* s := s + [v1..v2] */
     {
         *s++ |= (-1L) << b1;
         while(++v1 < v2)
+        {
             *s++ = -1;
+        }
         *s |= ~((-2L) << b2);
     }
     return sbase;
@@ -710,8 +863,12 @@ long* P_remset(/* s := s - [val] */
     if(++val <= *s)
     {
         if(!(s[val] &= ~(1L << bit)))
+        {
             while(*s && !s[*s])
+            {
                 (*s)--;
+            }
+        }
     }
     return s;
 }
@@ -722,11 +879,15 @@ int P_setequal(/* s1 = s2 */
 {
     int size = *s1++;
     if(*s2++ != size)
+    {
         return 0;
+    }
     while(--size >= 0)
     {
         if(*s1++ != *s2++)
+        {
             return 0;
+        }
     }
     return 1;
 }
@@ -735,13 +896,18 @@ int P_subset(/* s1 <= s2 */
              long* s1,
              long* s2)
 {
-    int sz1 = *s1++, sz2 = *s2++;
+    int sz1 = *s1++;
+    int sz2 = *s2++;
     if(sz1 > sz2)
+    {
         return 0;
+    }
     while(--sz1 >= 0)
     {
         if(*s1++ & ~*s2++)
+        {
             return 0;
+        }
     }
     return 1;
 }
@@ -757,7 +923,9 @@ long* P_setcpy(/* d := s */
 #else
     int i = *s + 1;
     while(--i >= 0)
+    {
         *d++ = *s++;
+    }
 #endif
     return save_d;
 }
@@ -775,7 +943,9 @@ long* P_expset(/* d := s */
         *d = 1;
     }
     else
+    {
         *d = 0;
+    }
     return d;
 }
 
@@ -783,16 +953,20 @@ long P_packset(/* convert s to a small-set */
                long* s)
 {
     if(*s++)
+    {
         return *s;
-    else
+    }
+    {
         return 0;
+    }
 }
 
 /* Oregon Software Pascal extensions, courtesy of William Bader */
 
 int P_getcmdline(int l, int h, Char* line)
 {
-    int i, len;
+    int i;
+    int len;
     char* s;
 
     h = h - l + 1;
@@ -803,11 +977,15 @@ int P_getcmdline(int l, int h, Char* line)
         while(*s)
         {
             if(len >= h)
+            {
                 return len;
+            }
             line[len++] = *s++;
         }
         if(len >= h)
+        {
             return len;
+        }
         line[len++] = ' ';
     }
     return len;
@@ -825,7 +1003,9 @@ Void TimeStamp(int* Day, int* Month, int* Year, int* Hour, int* Min, int* Sec)
     *Month = tm->tm_mon + 1; /* Jan = 0 */
     *Year = tm->tm_year;
     if(*Year < 1900)
+    {
         *Year += 1900; /* year since 1900 */
+    }
     *Hour = tm->tm_hour;
     *Min = tm->tm_min;
     *Sec = tm->tm_sec;
@@ -842,7 +1022,9 @@ Void VAXdate(char* s)
     time(&clock);
     c = ctime(&clock);
     for(i = 0; i < 11; i++)
+    {
         s[i] = my_toupper(c[where[i]]);
+    }
     s[2] = '-';
     s[6] = '-';
 }
@@ -856,7 +1038,9 @@ Void VAXtime(char* s)
     time(&clock);
     c = ctime(&clock);
     for(i = 0; i < 8; i++)
+    {
         s[i] = c[i + 11];
+    }
     s[8] = '.';
     s[9] = '0';
     s[10] = '0';
@@ -869,13 +1053,21 @@ Void P_sun_argv(char* s, int len, int n)
     char* cp;
 
     if((unsigned)n < P_argc)
+    {
         cp = P_argv[n];
+    }
     else
+    {
         cp = "";
+    }
     while(*cp && --len >= 0)
+    {
         *s++ = *cp++;
+    }
     while(--len >= 0)
+    {
         *s++ = ' ';
+    }
 }
 
 int _OutMem(void)

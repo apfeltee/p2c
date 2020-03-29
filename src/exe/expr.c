@@ -445,7 +445,11 @@ void freeexpr(Expr* ex)
     {
         for(i = 0; i < ex->nargs; i++)
         {
-            freeexpr(ex->args[i]);
+            if(ex->args[i] != NULL)
+            {
+                /* TODO: this breaks VERY consistently! */
+                /*freeexpr(ex->args[i]);*/
+            }
         }
         switch(ex->kind)
         {
